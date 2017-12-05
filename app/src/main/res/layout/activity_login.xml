@@ -67,9 +67,10 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onLoginClick"
             android:text="Login" />
 
         <LinearLayout
@@ -81,6 +82,8 @@
 
             <TextView
                 android:id="@+id/createAccountText"
+                android:clickable="true"
+                android:onClick="onRegisterClick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -89,6 +92,8 @@
 
             <TextView
                 android:id="@+id/forgotPasswordText"
+                android:clickable="true"
+                android:onClick="onRecoverClick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

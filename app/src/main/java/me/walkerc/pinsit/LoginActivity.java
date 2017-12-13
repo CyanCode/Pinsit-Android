@@ -21,14 +21,18 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.w3c.dom.Text;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
-    private EditText emailText;
-    private EditText passwordText;
-    private Button loginButton;
-    private TextView registerText;
-    private TextView recoverPassText;
+    @BindView(R.id.emailText) public EditText emailText;
+    @BindView(R.id.passwordText) public EditText passwordText;
+    @BindView(R.id.loginButton) public Button loginButton;
+    @BindView(R.id.createAccountText) public TextView registerText;
+    @BindView(R.id.forgotPasswordText) public TextView recoverPassText;
 
     private FirebaseAuth auth;
 
@@ -36,22 +40,20 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        emailText = findViewById(R.id.emailText);
-        passwordText = findViewById(R.id.passwordText);
-        loginButton = findViewById(R.id.loginButton);
-        registerText = findViewById(R.id.createAccountText);
-        recoverPassText = findViewById(R.id.forgotPasswordText);
+        ButterKnife.bind(this);
 
         //Shared firebase instance
         auth = FirebaseAuth.getInstance();
+
+        if (auth.getCurrentUser() != null) {
+            Intent activity = new Intent(this, MainActivity.class);
+            startActivity(activity);
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        FirebaseUser curUser = auth.getCurrentUser();
     }
 
     /**
@@ -61,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onLoginClick(View v) {
         //Attempt login
         auth.signInWithEmailAndPassword(emailText.getText().toString(), passwordText.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {

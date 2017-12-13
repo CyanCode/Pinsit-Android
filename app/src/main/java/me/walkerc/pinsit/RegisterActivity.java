@@ -54,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
             Log.i(TAG, "Registration credentials passed offline validation");
 
             auth.createUserWithEmailAndPassword(emailText.getText().toString(), passwordText.getText().toString())
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {

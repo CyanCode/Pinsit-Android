@@ -1,34 +1,37 @@
 package me.walkerc.pinsit;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
-    private Fragment mapFragment;
-    private Fragment postFragment;
-
-    private enum FragmentType {
-        MAP, POST, ACCOUNT
-    }
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Class fragmentClass;
+
             switch (item.getItemId()) {
                 case R.id.navigation_map:
-                    return true;
+                    fragmentClass = MapFragment.class;
+                    break;
                 case R.id.navigation_post:
-                    return true;
+                    fragmentClass = PostFragment.class;
+                    break;
                 case R.id.navigation_account:
-                    return true;
+                    fragmentClass = MapFragment.class; //TODO Change
+                    break;
+                default:
+                    fragmentClass = MapFragment.class;
             }
-            return false;
+
+            setActiveFragment(fragmentClass);
+
+            return true;
         }
     };
 
@@ -39,16 +42,22 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        //Show default fragment
+        setActiveFragment(MapFragment.class);
     }
 
-    private void setActiveFragment(FragmentType type) {
-        switch (type) {
-            case MAP:
-                break;
-            case POST:
-                break;
-            case ACCOUNT:
-                break;
+    private void setActiveFragment(Class fragmentClass) {
+        Fragment fragment;
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
         }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }
 }

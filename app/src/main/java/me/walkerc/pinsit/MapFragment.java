@@ -1,6 +1,7 @@
 package me.walkerc.pinsit;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,12 +34,13 @@ import com.yayandroid.locationmanager.listener.LocationListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MapFragment extends Fragment {
+public class MapFragment extends Fragment implements GoogleMap.OnMarkerClickListener {
     private static final String TAG = "MapFragment";
 
     @BindView(R.id.refreshButton) public AppCompatImageButton refreshButton;
@@ -47,7 +49,7 @@ public class MapFragment extends Fragment {
     private GoogleMap googleMap;
     private GeoQuery query;
     private HashMap<String, GeoLocation> locations = new HashMap<>();
-    private ArrayList<Marker> activeMarkers = new ArrayList<>();
+    private HashMap<Marker, String> activeMarkers = new HashMap<>();
 
     public MapFragment() {
         // Required empty public constructor
@@ -111,6 +113,7 @@ public class MapFragment extends Fragment {
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
+                googleMap.setOnMarkerClickListener(MapFragment.this);
                 MapFragment.this.googleMap = googleMap;
             }
         });
@@ -171,16 +174,29 @@ public class MapFragment extends Fragment {
     }
 
     private void populateMapWithLocations() {
-        for (Marker marker : activeMarkers) {
-            marker.remove(); //Remove all active markers before replacing
+        for (Marker m : activeMarkers.keySet()) {
+            m.remove(); //Remove active markers
         }
 
-        for (GeoLocation l : locations.values()) {
+        for (Map.Entry<String, GeoLocation> entry : locations.entrySet()) {
+            GeoLocation l = entry.getValue();
             LatLng loc = new LatLng(l.latitude, l.longitude);
 
-            Marker m = googleMap.addMarker(new MarkerOptions().position(loc));
-            activeMarkers.add(m);
+            Marker m = googleMap.addMarker(new MarkerOptions()
+                    .position(loc));
+            activeMarkers.put(m, entry.getKey());
         }
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        String key = activeMarkers.get(marker);
+
+        Intent intent = new Intent(getActivity(), PinActivity.class);
+        intent.putExtra("key", key);
+        getActivity().startActivity(intent);
+
+        return true;
     }
 
     private interface OnKeyAddedListener {

@@ -22,9 +22,6 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_post:
                     fragmentClass = PostFragment.class;
                     break;
-                case R.id.navigation_account:
-                    fragmentClass = MapFragment.class; //TODO Change
-                    break;
                 default:
                     fragmentClass = MapFragment.class;
             }

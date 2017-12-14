@@ -23,7 +23,8 @@ android {
 configurations.all {
     resolutionStrategy {
         eachDependency { DependencyResolveDetails details ->
-            if (details.requested.group == 'com.google.android.gms') { //Fix smartlocation dependencies
+            if (details.requested.group == 'com.google.android.gms') {
+                //Fix smartlocation dependencies
                 details.useVersion "11.6.2"
             }
         }
@@ -53,5 +54,6 @@ dependencies {
     compile 'com.yayandroid:LocationManager:2.0.4'
     implementation 'com.google.android.gms:play-services-maps:11.6.2'
 }
+
 
 apply plugin: 'com.google.gms.google-services'

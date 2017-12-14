@@ -4,6 +4,7 @@ import android.*;
 import android.Manifest;
 import android.content.Context;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.yayandroid.locationmanager.LocationManager;
@@ -123,7 +125,11 @@ public class Pin {
 
     public void uploadVideo(OnCompleteListener<UploadTask.TaskSnapshot> listener) {
         StorageReference ref = FirebaseStorage.getInstance().getReference(videoReference);
-        UploadTask upload = ref.putBytes(readBytes(videoFile));
+        StorageMetadata metadata = new StorageMetadata.Builder()
+                .setContentType("video/mp4")
+                .build();
+
+        UploadTask upload = ref.putFile(Uri.fromFile(videoFile), metadata);
         upload.addOnCompleteListener(listener);
     }
 

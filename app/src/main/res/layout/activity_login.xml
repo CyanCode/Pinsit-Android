@@ -10,12 +10,12 @@
         android:id="@+id/backgroundImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@drawable/bg_auth_blur"
         android:contentDescription="Background Image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:color/holo_orange_dark" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/credLayout"
@@ -37,6 +37,7 @@
             android:layout_marginBottom="8dp"
             android:hint="Email Address"
             android:inputType="textEmailAddress"
+            android:backgroundTint="#fff"
             app:layout_constraintBottom_toTopOf="@+id/passwordText"
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,6 +49,7 @@
             android:layout_height="wrap_content"
             android:hint="Password"
             android:inputType="textPassword"
+            android:backgroundTint="#fff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -70,8 +72,10 @@
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
             android:onClick="onLoginClick"
-            android:text="Login" />
+            android:text="Login"
+            android:textColor="@android:color/white" />
 
         <LinearLayout
             android:id="@+id/otherOptionsLayout"
@@ -82,23 +86,25 @@
 
             <TextView
                 android:id="@+id/createAccountText"
-                android:clickable="true"
-                android:onClick="onRegisterClick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="onRegisterClick"
                 android:text="Create Account"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:id="@+id/forgotPasswordText"
-                android:clickable="true"
-                android:onClick="onRecoverClick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="true"
+                android:onClick="onRecoverClick"
                 android:text="Forgot Password"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@android:color/white" />
         </LinearLayout>
     </LinearLayout>
 

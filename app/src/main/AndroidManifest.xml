@@ -34,6 +34,10 @@
         <activity
             android:name=".PinActivity"
             android:label="@string/title_activity_pin"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:label="@string/title_activity_reset_password"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

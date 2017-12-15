@@ -1,6 +1,9 @@
 package me.walkerc.pinsit;
 
 import android.app.Application;
+import android.app.ProgressDialog;
+import android.content.Context;
+
 import com.google.firebase.FirebaseApp;
 
 /**
@@ -13,5 +16,16 @@ public class PinsitApplication extends Application {
         FirebaseApp.initializeApp(this);
 
         super.onCreate();
+    }
+
+    public static ProgressDialog showCenteredProgressSpinner(Context context) {
+        ProgressDialog progress = new ProgressDialog(context, R.style.CenterGravity);
+        progress.setCancelable(false);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setProgress(0);
+        progress.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        progress.show();
+
+        return progress;
     }
 }

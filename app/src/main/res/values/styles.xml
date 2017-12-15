@@ -17,4 +17,5 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="CenterGravity" parent="android:Theme.Material.Dialog" ></style>
 </resources>

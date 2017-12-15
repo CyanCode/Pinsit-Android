@@ -1,8 +1,10 @@
 package me.walkerc.pinsit;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,7 @@ import android.widget.VideoView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.pnikosis.materialishprogress.ProgressWheel;
 import com.wonderkiln.camerakit.CameraKit;
 import com.wonderkiln.camerakit.CameraView;
 
@@ -251,21 +254,28 @@ public class PostFragment extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        Pin p = new Pin(manager.getVideoLocation());
-
-                        p.postPin(PostFragment.this, new Pin.OnPostStatusUpdateListener() {
-                            @Override
-                            public void postSucceeded() {
-                                Log.i(TAG, "Pin was posted successfully");
-                                Toast.makeText(PostFragment.this.getActivity().getApplicationContext(),
-                                        "Your pin was posted successfully!", Toast.LENGTH_SHORT)
-                                        .show();
-                                PostFragment.this.setCameraStatus(CameraStatus.DEFAULT);
-                            }
-                        });
+                        startPosting();
                     }
                 });
         alert.show();
+    }
+
+    private void startPosting() {
+        final ProgressDialog progress = PinsitApplication.showCenteredProgressSpinner(getActivity());
+        Pin p = new Pin(manager.getVideoLocation());
+
+        p.postPin(PostFragment.this, new Pin.OnPostStatusUpdateListener() {
+            @Override
+            public void postSucceeded() {
+                progress.hide();
+
+                Log.i(TAG, "Pin was posted successfully");
+                Toast.makeText(PostFragment.this.getActivity(),
+                        "Your pin was posted successfully!", Toast.LENGTH_LONG)
+                        .show();
+                PostFragment.this.setCameraStatus(CameraStatus.DEFAULT);
+            }
+        });
     }
 
     private static void setVisibility(ViewGroup layout, int visible) {

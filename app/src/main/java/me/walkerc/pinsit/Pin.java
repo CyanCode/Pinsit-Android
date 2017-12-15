@@ -40,7 +40,6 @@ import java.util.UUID;
 /**
  * Created by CChristie on 12/12/2017.
  */
-
 public class Pin {
     private static final String TAG = "Pin";
 
